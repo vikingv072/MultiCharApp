@@ -93,7 +93,7 @@ extension CharactersViewController: UITableViewDelegate {
         let detailsVC = storyboard.instantiateViewController(identifier: "CharDetail") as CharacterDetailsViewController
         detailsVC.charDetails = sendInfo
         if UIDevice.current.userInterfaceIdiom == .phone {
-            navigationController?.pushViewController(detailsVC, animated: true)
+            present(detailsVC, animated: true)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
             splitViewController?.setViewController(detailsVC, for: .secondary)
         }
