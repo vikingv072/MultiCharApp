@@ -25,7 +25,8 @@ final class CharactersViewController: UIViewController {
         let request = CharacterRequest(q: Environment.shared.paramName)
         searchBar.delegate = self
         searchBar.autocorrectionType = .no
-
+        splitViewController?.delegate = self
+        
         vm.getCharacters(request)
         
         vm.$searchedChars
@@ -76,7 +77,6 @@ extension CharactersViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard indexPath.row < vm.searchedChars.count else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let topic = vm.retrieveText(indexPath.row).first ?? ""
@@ -93,7 +93,7 @@ extension CharactersViewController: UITableViewDelegate {
         let detailsVC = storyboard.instantiateViewController(identifier: "CharDetail") as CharacterDetailsViewController
         detailsVC.charDetails = sendInfo
         if UIDevice.current.userInterfaceIdiom == .phone {
-            present(detailsVC, animated: true)
+            navigationController?.pushViewController(detailsVC, animated: true)
         } else if UIDevice.current.userInterfaceIdiom == .pad {
             splitViewController?.setViewController(detailsVC, for: .secondary)
         }
@@ -103,6 +103,16 @@ extension CharactersViewController: UITableViewDelegate {
 extension CharactersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         vm.searchChar(searchText: searchBar.text ?? "")
+    }
+}
+
+extension CharactersViewController: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
+        return true
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
 }
 

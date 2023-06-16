@@ -24,11 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = navigationController
         } else if UIDevice.current.userInterfaceIdiom == .pad {
             let splitViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SplitView") as! UISplitViewController
-            splitViewController.preferredDisplayMode = .oneBesideSecondary
             let characterListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CharactersViewController") as! CharactersViewController
-            let characterDetailsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CharDetail") as! CharacterDetailsViewController
             splitViewController.preferredDisplayMode = .oneBesideSecondary
-            splitViewController.viewControllers = [characterListViewController, characterDetailsViewController]
             splitViewController.setViewController(characterListViewController, for: .primary)
             window.rootViewController = splitViewController
         }
